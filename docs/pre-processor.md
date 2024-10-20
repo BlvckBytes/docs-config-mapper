@@ -10,7 +10,7 @@ The pre-processor resembles very simple key/value-based substitution, used to ex
 
 In order to avoid needless complexity and improve on readability, input-files do not contain any control-characters whatsoever, besides comment-markers (`#`).
 
-The key is simply identified as the first word of the line, which thereby cannot contain spaces; keys can only consist of uppercase latin characters and digits, as well as hyphens (`-`) and underscores (`_`); use the latter to build self-descriptive names, with hyphens separating words within the same group, and underscores delimiting groups. For example, `DISPLAY_PREVIOUS-PAGE_LORE_LEFT-CLICK-DESCRIPTION` and `DISPLAY_PREVIOUS-PAGE_LORE_RIGHT-CLICK-DESCRIPTION`, which describe the previous-page button's lore-content in regards to describing what action will be carried out when either left- or right-clicking, all within a GUI called "display". Do not refrain from employing long and verbose keys, and scope groups of keys by a common prefix, as to visually depict their mutual belonging.
+The key is simply identified as the first word of the line, which thereby cannot contain spaces; keys can only consist of uppercase latin characters and digits, as well as hyphens (`-`). Do not refrain from employing long and verbose keys, and scope groups of keys by a common prefix, as to visually depict their mutual belonging.
 
 After this key, any amount of white-space may follow; it is advised to align values so their beginning shares a common column, making it a lot easier to read and edit. If the first character of the value is required to be a space, prepend it by a backslash (`\`); if a value is required to have trailing spaces, append them by a backslash also; to have a literal backslash at either the beginning or the end of a line in combination with whitespace, prepend the backslash by another backslash, e.g. `\\`. Backslashes at the beginning of a line which are not followed up by whitespace do not require escaping; similarly, backslashes at the end of a line which are not prepended by whitespace do not require escaping either.
 
@@ -38,7 +38,7 @@ Only consecutive comments above a key are associated with said key, thereby maki
 # - loc_x: Integer
 # - loc_y: Integer
 # - loc_z: Integer
-MESSAGE_BEFORE-TELEPORTING &7Teleporting to the Shop of &e{owner} &7at &e{loc_x}&7, &e{loc_y}&7, &e{loc_z}&7.
+MESSAGE-BEFORE-TELEPORTING &7Teleporting to the Shop of &e{owner} &7at &e{loc_x}&7, &e{loc_y}&7, &e{loc_z}&7.
 ```
 
 ## Substitution
@@ -55,17 +55,17 @@ Interpolation will simply be translated to use of the concatenation-operator, as
 
 Input
 ```txt
-LORE_LINE   &8♦ &7Location: &e{loc_x}&7, &e{loc_y}&7, &e{loc_z}
-LORE_SPACER &8&m                                \
+LORE-LINE   &8♦ &7Location: &e{loc_x}&7, &e{loc_y}&7, &e{loc_z}
+LORE-SPACER &8&m                                \
 ```
 
 Config
 ```yml
 myItem:
   lore$:
-  - '@{LORE_SPACER}'
-  - '@{LORE_LINE}'
-  - '@{LORE_SPACER}'
+  - '@{LORE-SPACER}'
+  - '@{LORE-LINE}'
+  - '@{LORE-SPACER}'
 ```
 
 Result
@@ -84,28 +84,28 @@ A great example of where temporary variables make a lot of sense is data-dedupli
 Once attached to a pre-processor key by the parentheses-syntax, the temporary variables specified therein are only available to the corresponding value:
 
 ```txt
-<PRE-PROCESSOR_KEY>(<variable_1>=<value_1>;<variable_2>=<value_2>;...)
+<PRE-PROCESSOR-KEY>(<variable_1>=<value_1>;<variable_2>=<value_2>;...)
 ```
 
 To avoid translators having to understand subscripting operators, the corresponding expression can be hidden behind a user-friendly variable-name, as presented below.
 
 Input
 ```txt
-MESSAGE_PREFIX      &8[&6YourPlugin&8]
-CHAT_MESSAGE_FIRST  {prefix} &7This is the first message
-CHAT_MESSAGE_SECOND {prefix} &7This is the second message
-CHAT_MESSAGE_THIRD  {prefix} &7This is the third message
+MESSAGE-PREFIX      &8[&6YourPlugin&8]
+CHAT-MESSAGE-FIRST  {prefix} &7This is the first message
+CHAT-MESSAGE-SECOND {prefix} &7This is the second message
+CHAT-MESSAGE-THIRD  {prefix} &7This is the third message
 ```
 
 Config
 ```yml
 chatMessages:
-  first$: '@{CHAT_MESSAGE_FIRST(prefix=lut["MESSAGE_PREFIX"])}'
-  second$: '@{CHAT_MESSAGE_SECOND(prefix=lut["MESSAGE_PREFIX"])}'
-  third$: '@{CHAT_MESSAGE_THIRD(prefix=lut["MESSAGE_PREFIX"])}'
+  first$: '@{CHAT-MESSAGE-FIRST(prefix=lut["MESSAGE_PREFIX"])}'
+  second$: '@{CHAT-MESSAGE-SECOND(prefix=lut["MESSAGE_PREFIX"])}'
+  third$: '@{CHAT-MESSAGE-THIRD(prefix=lut["MESSAGE_PREFIX"])}'
 
 lut:
-  MESSAGE_PREFIX$: '@{MESSAGE_PREFIX}'
+  MESSAGE_PREFIX$: '@{MESSAGE-PREFIX}'
 ```
 
 
